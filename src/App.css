@@ -1,0 +1,26 @@
+.img-detail {
+    width: 100%;
+    max-width:500px;
+}
+
+.cart-list {
+    list-style: none;
+    margin: 0 auto;
+}
+
+.cart-list li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background-color: rgb(238, 238, 238);
+    border-radius: 10px;
+    gap: 10px;
+    margin: 5px 0;
+}
+
+.cart-list li img {
+    width: 100%;
+    max-width: 120px;
+}
+

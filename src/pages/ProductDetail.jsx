@@ -2,7 +2,6 @@ import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
-import Carousel from "react-bootstrap/Carousel";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
@@ -10,6 +9,7 @@ import Card from "react-bootstrap/Card";
 import { useDispatch, useSelector } from "react-redux";
 
 import { filterCategoryThunk } from "../store/slices/products.slice";
+import { addProductThunk } from "../store/slices/cart.slice";
 
 export function ProductDetail() {
   const { id } = useParams();
@@ -23,6 +23,16 @@ export function ProductDetail() {
     (product) => product.id !== Number(id)
   );
 
+  const addToCart = () => {
+    const prod = {
+      productId: product.id,
+      quantity: quantity,
+
+    }
+
+    dispatch(addProductThunk(prod))
+  }
+
   useEffect(() => {
     axios
       .get(`https://e-commerce-api-v2.academlo.tech/api/v1/products/${id}`)
@@ -32,6 +42,15 @@ export function ProductDetail() {
       });
   }, []);
 
+  useEffect(() => {
+    axios
+      .get(`https://e-commerce-api-v2.academlo.tech/api/v1/products/${id}`)
+      .then((res) => {
+        setProduct(res.data);
+        dispatch(filterCategoryThunk(res.data.categoryId));
+      });
+  }, [id]);
+
   const decrementQuantity = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
@@ -39,12 +58,13 @@ export function ProductDetail() {
   };
 
   return (
-    <div className="pt-5">
-      <Row>
-        <Col sm={6}>
-          <h1>{product.title} </h1>
+    <div className="pt-5 container-detail-product">
+      <Row className="wx-50">
+        <Col sm={5}>
+          {product.images && <img className="img-detail ms-auto" src={product.images[0].url} alt="" />}
         </Col>
         <Col>
+        <h1>{product.title} </h1>
           <p className="lead">{product.description}</p>
 
           <Row style={{ justifyContent: "center", alignItems: "center" }}>
@@ -69,7 +89,7 @@ export function ProductDetail() {
             </Col>
           </Row>
 
-          <Button className="my-3" variant="dark">
+          <Button onClick={addToCart} className="my-3" variant="dark">
             Add to cart
           </Button>
         </Col>
@@ -88,7 +108,6 @@ export function ProductDetail() {
                 />
                 <Card.Body>
                   <Card.Title>{product.title}</Card.Title>
-                  <Card.Text>{product.description}</Card.Text>
                   <Button
                     as={Link}
                     to={`/product/${product.id}`}
