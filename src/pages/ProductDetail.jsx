@@ -63,7 +63,7 @@ export function ProductDetail() {
         <Col sm={5}>
           {product.images && <img className="img-detail ms-auto" src={product.images[0].url} alt="" />}
         </Col>
-        <Col>
+        <Col className="mt-3">
         <h1>{product.title} </h1>
           <p className="lead">{product.description}</p>
 
@@ -75,12 +75,12 @@ export function ProductDetail() {
             <Col>
               <div className="product-btns-quantity">
                 <p className="lead mb-1">Quantity:</p>
-                <Button variant="dark" onClick={() => decrementQuantity()}>
+                <Button variant="primary" onClick={() => decrementQuantity()}>
                   -
                 </Button>
                 <span className="p-2">{quantity}</span>
                 <Button
-                  variant="dark"
+                  variant="primary"
                   onClick={() => setQuantity(quantity + 1)}
                 >
                   +
@@ -89,7 +89,7 @@ export function ProductDetail() {
             </Col>
           </Row>
 
-          <Button onClick={addToCart} className="my-3" variant="dark">
+          <Button style={{width: "40%", fontSize: "16px"}} onClick={addToCart} className="my-3" variant="primary">
             Add to cart
           </Button>
         </Col>
@@ -104,11 +104,12 @@ export function ProductDetail() {
                 <Card.Img
                   variant="top"
                   src={product.images[0].url}
-                  style={{ objectFit: "cover", width: "100%" }}
+                  style={{width: "100%", height: "200px", objectFit: "contain"}}
                 />
                 <Card.Body>
-                  <Card.Title>{product.title}</Card.Title>
+                  <Card.Title style={{overflowX: "hidden", height: "50px", whiteSpace: "nowrap", textOverflow: "ellipsis"}}>{product.title}</Card.Title>
                   <Button
+                  style={{fontSize: "17px"}} className="w-100"
                     as={Link}
                     to={`/product/${product.id}`}
                     variant="primary"

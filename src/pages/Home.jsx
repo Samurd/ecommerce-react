@@ -35,18 +35,18 @@ export function Home() {
     <div className="">
       <Row className="pt-5">
         <Col md={4} lg={3}>
-          <ListGroup className="w-100">
+          <h3>Category</h3>
+          <Form.Select className="w-100" onChange={e => dispatch(filterCategoryThunk(e.target.value))}>
+            <option value="">All products</option>
             {categories.map((cate) => (
-              <ListGroup.Item
-                onClick={() => dispatch(filterCategoryThunk(cate.id))}
+              <option
+              value={cate.id}
                 key={cate.id}
-                className='bg-light'
-                style={{cursor: "pointer"}}
               >
                 {cate.name}
-              </ListGroup.Item>
+              </option>
             ))}
-          </ListGroup>
+          </Form.Select>
         </Col>
         <Col md={8} lg={9} className='pt-5' >
           <h1>Productos</h1>
@@ -67,13 +67,14 @@ export function Home() {
               <Col className="mb-3" key={product.id}>
                 <Card style={{ width: "18rem" }}>
                   <Card.Img
+                  className="p-1"
                     variant="top"
                     src={product.images[0].url}
-                    style={{ objectFit: "cover", width: "100%" }}
+                    style={{width: "100%", height: "200px", objectFit: "contain"}}
                   />
                   <Card.Body>
-                    <Card.Title>{product.title}</Card.Title>
-                    <Button as={Link} to={`/product/${product.id}`} variant="primary">See more</Button>
+                    <Card.Title style={{overflowX: "hidden", height: "50px", whiteSpace: "nowrap", textOverflow: "ellipsis"}}>{product.title}</Card.Title>
+                    <Button style={{fontSize: "17px"}} className="w-100" as={Link} to={`/product/${product.id}`} variant="primary">See more</Button>
                   </Card.Body>
                 </Card>
               </Col>
@@ -81,7 +82,6 @@ export function Home() {
           </Row>
         </Col>
       </Row>
-      <h1>Home</h1>
     </div>
   );
 }
