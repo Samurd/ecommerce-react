@@ -24,7 +24,7 @@ function AppNavbar() {
 
   return (
     <>
-    <Navbar bg="light" expand="lg">
+    <Navbar className='bg-light'>
       <Container>
         <Navbar.Brand as={Link} to='/'>Ecommerce App</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

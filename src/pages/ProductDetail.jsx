@@ -1,10 +1,11 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
+import Carousel from "react-bootstrap/Carousel";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -17,6 +18,7 @@ export function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   const allproducts = useSelector((state) => state.productsSlice);
   const productFiltered = allproducts.filter(
@@ -27,16 +29,21 @@ export function ProductDetail() {
     const prod = {
       productId: product.id,
       quantity: quantity,
+    };
 
+    const token = localStorage.getItem("tokenUser");
+    if(token) {
+      dispatch(addProductThunk(prod));
+    } else {
+      navigate("/login")
     }
-
-    dispatch(addProductThunk(prod))
-  }
+  }; 
 
   useEffect(() => {
     axios
       .get(`https://e-commerce-api-v2.academlo.tech/api/v1/products/${id}`)
       .then((res) => {
+        console.log(res.data);
         setProduct(res.data);
         dispatch(filterCategoryThunk(res.data.categoryId));
       });
@@ -61,10 +68,37 @@ export function ProductDetail() {
     <div className="pt-5 container-detail-product">
       <Row className="wx-50">
         <Col sm={5}>
-          {product.images && <img className="img-detail ms-auto" src={product.images[0].url} alt="" />}
+          <Carousel variant="dark" style={{width: "100%", height: "550px"}} slide={false}>
+            <Carousel.Item>
+              <img
+                style={{objectFit: "contain", width: "100%", height: "550px" }}
+                className="d-block w-100"
+                src={product.images && product.images[0].url}
+                alt="First slide"
+              />
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+              style={{objectFit: "contain", width: "100%", height: "550px" }}
+                className="d-block w-100"
+                src={product.images && product.images[1].url}
+                alt="Second slide"
+              />
+
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+              style={{objectFit: "contain", width: "100%", height: "550px" }}
+                className="d-block w-100"
+                src={product.images && product.images[2].url}
+                alt="Third slide"
+              />
+
+            </Carousel.Item>
+          </Carousel>
         </Col>
         <Col className="mt-3">
-        <h1>{product.title} </h1>
+          <h1>{product.title} </h1>
           <p className="lead">{product.description}</p>
 
           <Row style={{ justifyContent: "center", alignItems: "center" }}>
@@ -89,8 +123,13 @@ export function ProductDetail() {
             </Col>
           </Row>
 
-          <Button style={{width: "40%", fontSize: "16px"}} onClick={addToCart} className="my-3" variant="primary">
-            Add to cart
+          <Button
+            style={{ width: "40%", fontSize: "16px" }}
+            onClick={addToCart}
+            className="my-3"
+            variant="primary"
+          >
+            ADD TO CART
           </Button>
         </Col>
       </Row>
@@ -104,12 +143,26 @@ export function ProductDetail() {
                 <Card.Img
                   variant="top"
                   src={product.images[0].url}
-                  style={{width: "100%", height: "200px", objectFit: "contain"}}
+                  style={{
+                    width: "100%",
+                    height: "200px",
+                    objectFit: "contain",
+                  }}
                 />
                 <Card.Body>
-                  <Card.Title style={{overflowX: "hidden", height: "50px", whiteSpace: "nowrap", textOverflow: "ellipsis"}}>{product.title}</Card.Title>
+                  <Card.Title
+                    style={{
+                      overflowX: "hidden",
+                      height: "50px",
+                      whiteSpace: "nowrap",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    {product.title}
+                  </Card.Title>
                   <Button
-                  style={{fontSize: "17px"}} className="w-100"
+                    style={{ fontSize: "17px" }}
+                    className="w-100"
                     as={Link}
                     to={`/product/${product.id}`}
                     variant="primary"

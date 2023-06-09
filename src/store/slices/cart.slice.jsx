@@ -37,5 +37,20 @@ export const addProductThunk = data => dispatch => {
 }
 
 export const updateProductThunk = (id, quantity) => dispatch => {
-    axios.put(`https://e-commerce-api-v2.academlo.tech/api/v1/cart/${id}`, quantity, getConfig())
+    const body = {
+        quantity: quantity,
+    }
+    axios.put(`https://e-commerce-api-v2.academlo.tech/api/v1/cart/${id}`, body, getConfig())
+    .then(() => dispatch(getCartThunk()))
+}
+
+
+export const deleteProductThunk = (id) => dispatch => {
+    axios.delete(`https://e-commerce-api-v2.academlo.tech/api/v1/cart/${id}`, getConfig())
+    .then(() => dispatch(getCartThunk()))
+}
+
+export const purchasesCartThunk = () => dispatch => {
+    axios.post(`https://e-commerce-api-v2.academlo.tech/api/v1/purchases`, {} , getConfig())
+    .then(() => dispatch(getCartThunk()))
 }

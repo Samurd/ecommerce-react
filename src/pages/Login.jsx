@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
+import Alert from 'react-bootstrap/Alert';
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
 
@@ -29,7 +30,13 @@ export function Login() {
 
   return (
     <div className='mt-5'>
-      <Form className='p-5 w-50 mx-auto' style={{border: "2px solid #4582ec", borderRadius: "20px"}} onSubmit={ handleSubmit(submit)}>
+      <Form className='p-5 mx-auto' style={{border: "2px solid #2c3e50", borderRadius: "20px", width: "90%", maxWidth: "500px"}} onSubmit={ handleSubmit(submit)}>
+      <Alert variant='primary'>
+        <p className='m-0'>Test:</p>
+        <p className='m-0'>Email: samurr@gmail.com </p>
+        <p className='m-0'>password: 1234</p>
+          
+        </Alert>
         <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
           <Form.Label column sm={2}>
             Email
