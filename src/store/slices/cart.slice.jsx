@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { getConfig } from '../../utils/getConfig';
+import { setAlertError } from './alertError.slice';
+import { setAlertSuccess } from './alertSuccess.slice';
 
 
 export const cartSlice = createSlice({
@@ -30,10 +32,16 @@ export const getCartThunk = () => dispatch => {
 export const addProductThunk = data => dispatch => {
     axios.post("https://e-commerce-api-v2.academlo.tech/api/v1/cart", data, getConfig())
     .then(res => {
-        console.log(res.data)
+        console.log(res)
         dispatch(getCartThunk())
+        if(res.status === 201) {
+            dispatch(setAlertSuccess("flex"))
+        }
     })
-    .catch(error => console.error(error))
+    .catch(error => {
+        console.error(error)
+        dispatch(setAlertError("flex"))
+    })
 }
 
 export const updateProductThunk = (id, quantity) => dispatch => {

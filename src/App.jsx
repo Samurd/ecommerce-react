@@ -11,7 +11,7 @@ import Container from "react-bootstrap/Container";
 import { ProtectedRoutes } from "./components/ProtectedRoutes";
 
 function App() {
-  const isLoading = useSelector((state) => state.isLoading);
+  const isLoading = useSelector((state) => state.isLoadingSlice);
 
   return (
     <HashRouter>

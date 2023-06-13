@@ -7,6 +7,7 @@ import Row from 'react-bootstrap/Row';
 import Alert from 'react-bootstrap/Alert';
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 export function Login() {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ export function Login() {
         .then(res => {
           console.log(res.data)
           localStorage.setItem("tokenUser", res.data.token)
+          localStorage.setItem("user", res.data.user.id)
           navigate("/")
         })
         .catch(error => {
