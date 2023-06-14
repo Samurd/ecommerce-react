@@ -104,6 +104,7 @@ export function Home() {
                           whiteSpace: "nowrap",
                           textOverflow: "ellipsis",
                         }}
+                        title={product.title}
                       >
                         {product.title}
                       </Card.Title>
